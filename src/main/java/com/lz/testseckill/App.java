@@ -9,7 +9,7 @@ public class App {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		SpringApplication app = new SpringApplication();
+		SpringApplication app = new SpringApplication(App.class);
 		app.run(args);
 	}
 
