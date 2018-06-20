@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.lz.testseckill.model.Seckill;
 import com.lz.testseckill.service.SeckillService;
@@ -28,9 +29,17 @@ public class SeckillController {
 	}
 	
 	@RequestMapping("/get/{id}")
-	public void getById(@PathVariable Integer id,
+	public ModelAndView getById(@PathVariable Integer id,
 			HttpServletResponse resp) throws Exception{
 		Seckill seckill = seckillService.getById(id);
-		resp.getWriter().println(seckill.toString());
+		ModelAndView view = new ModelAndView();
+		view.addObject("seckill",seckill);
+		view.setViewName("seckill");
+		return view;
+	}
+	
+	@RequestMapping("/webtest")
+	public String testDisplay(){
+		return "test";
 	}
 }
