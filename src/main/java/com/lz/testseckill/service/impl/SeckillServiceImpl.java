@@ -4,11 +4,18 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.lz.testseckill.dao.SeckillDao;
 import com.lz.testseckill.model.Seckill;
 import com.lz.testseckill.service.SeckillService;
@@ -18,7 +25,10 @@ public class SeckillServiceImpl implements SeckillService{
 	@Autowired
 	SeckillDao seckillDao;
 	@Autowired
-	RedisTemplate redisTemplate;
+	RedisTemplate redisTemplate;	
+	@Autowired
+	RestTemplateBuilder restTemplateBuilder;
+	
 	Logger logger = Logger.getLogger(SeckillServiceImpl.class);
 	@Override
 	public void add(Seckill seckill) {
@@ -26,7 +36,19 @@ public class SeckillServiceImpl implements SeckillService{
 		seckillDao.save(seckill);
 		logger.info("插入成功");
 	}
+	
+	public String addToEs(Seckill seckill){
+		RestTemplate client = restTemplateBuilder.build();
+		String result = client.postForObject("http://localhost:9200/seckill/goods/"+seckill.getId().toString(), seckill, String.class);
+		return result;
+	}
 
+	public String searchByIdFromEs(Integer id){
+		RestTemplate client = restTemplateBuilder.build();
+		String info = client.getForObject("http://localhost:9200/seckill/goods/"+id, String.class);
+		return info;
+	}
+	
 	@Override
 	public Seckill getById(Integer id) {
 		// TODO Auto-generated method stub
