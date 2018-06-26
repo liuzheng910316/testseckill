@@ -39,13 +39,13 @@ public class SeckillServiceImpl implements SeckillService{
 	
 	public String addToEs(Seckill seckill){
 		RestTemplate client = restTemplateBuilder.build();
-		String result = client.postForObject("http://localhost:9200/seckill/goods/"+seckill.getId().toString(), seckill, String.class);
+		String result = client.postForObject("http://47.105.102.220:9200/seckill/goods/"+seckill.getId().toString(), seckill, String.class);
 		return result;
 	}
 
 	public String searchByIdFromEs(Integer id){
 		RestTemplate client = restTemplateBuilder.build();
-		String info = client.getForObject("http://localhost:9200/seckill/goods/"+id, String.class);
+		String info = client.getForObject("http://47.105.102.220:9200/seckill/goods/"+id, String.class);
 		return info;
 	}
 	
