@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lz.myconfig.MyConfigService;
 import com.lz.testseckill.model.Seckill;
 import com.lz.testseckill.service.SeckillService;
 
@@ -24,6 +25,8 @@ public class SeckillController {
 
 	@Autowired
 	SeckillService seckillService;
+	@Autowired
+	MyConfigService myConfigService;
 	
 	@RequestMapping("/add")
 	public void add(@ModelAttribute Seckill seckill){
@@ -63,6 +66,6 @@ public class SeckillController {
 	
 	@RequestMapping("/webtest")
 	public String testDisplay(){
-		return "test";
+		return myConfigService.getDetail();
 	}
 }
